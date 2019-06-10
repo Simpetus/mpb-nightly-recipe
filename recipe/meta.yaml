@@ -1,0 +1,45 @@
+{% set version = "1.8.1.dev" %}
+{% set buildnumber = 7 %}
+
+package:
+  name: mpb
+  version: {{version}}
+
+source:
+  git_url: https://github.com/NanoComp/mpb.git
+  git_rev: master
+
+build:
+  number: {{buildnumber}}
+  features:
+    - nomkl
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+    - {{ compiler('fortran') }}  # [linux]
+    - gfortran_osx-64 4.*  # [osx]
+  host:
+    - openblas
+    - mpich
+    - fftw
+    - hdf5 * mpi_mpich_*
+    - libctl >=4.1.4
+  run:
+    - openblas
+    - fftw
+    - hdf5 * mpi_mpich_*
+    - libctl >=4.1.4
+    - nomkl
+
+test:
+  commands:
+    - test -f ${PREFIX}/lib/libmpb${SHLIB_EXT}
+
+about:
+  home: http:/github.com/NanoComp/mpb
+  license: GPL-2.0
+  license_file: COPYING
+  summary: MIT Photonic-Bands - computation of photonic band structures in periodic media
+  doc_url: http://mpb.readthedocs.io
+  dev_url: https://github.com/NanoComp/mpb
