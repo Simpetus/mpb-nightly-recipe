@@ -1,16 +1,37 @@
+{% set name = "mpb" %}
 {% set version = "1.9.1.dev" %}
 {% set buildnumber = 0 %}
+# recipe-lint fails if mpi is undefined
+{% set mpi = mpi or 'nompi' %}
+{% if mpi == "nompi" %}
+# prioritize nompi via build number
+{% set buildnumber = buildnumber + 100 %}
+{% endif %}
 
 package:
-  name: mpb
+  name: {{ name }}
   version: {{version}}
 
 source:
-  git_url: https://github.com/NanoComp/mpb.git
+  git_url: https://github.com/NanoComp/{{ name }}.git
   git_rev: master
 
 build:
   number: {{buildnumber}}
+  {% if mpi != "nompi" %}
+  {% set mpi_prefix = "mpi_" + mpi %}
+  {% else %}
+  {% set mpi_prefix = "nompi" %}
+  {% endif %}
+  # add build string so packages can depend on
+  # mpi or nompi variants
+  # dependencies:
+  # `mpb * mpi_mpich_*` for mpich
+  # `mpb * mpi_*` for any mpi
+  # `mpb * nompi_*` for no mpi
+  string: "{{ mpi_prefix }}_nomklh{{ PKG_HASH }}_{{ buildnumber }}"
+  run_exports:
+    - {{ name }} * {{ mpi_prefix }}_*
   features:
     - nomkl
 
@@ -20,15 +41,17 @@ requirements:
     - {{ compiler('fortran') }}  # [linux]
     - gfortran_osx-64 4.*  # [osx]
   host:
-    - openblas
-    - mpich
+    - {{ mpi }}  # [mpi != 'nompi']
+    - libblas
+    - libcblas
+    - liblapack
     - fftw
-    - hdf5 * mpi_mpich_*
+    - hdf5 * {{ mpi_prefix }}_*
     - libctl >=4.1.4
   run:
-    - openblas
+    - {{ mpi }}  # [mpi != 'nompi']
+    - hdf5 * {{ mpi_prefix }}_*
     - fftw
-    - hdf5 * mpi_mpich_*
     - libctl >=4.1.4
     - nomkl
 
