@@ -1,5 +1,5 @@
-{% set version = "1.8.1.dev" %}
-{% set buildnumber = 7 %}
+{% set version = "1.9.1.dev" %}
+{% set buildnumber = 0 %}
 
 package:
   name: mpb
