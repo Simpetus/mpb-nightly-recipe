@@ -45,7 +45,7 @@ requirements:
     - libcblas
     - liblapack
     - fftw
-    - hdf5 * {{ mpi_prefix }}_*
+    - hdf5 1.10.5 {{ mpi_prefix }}_*
     - libctl >=4.1.4
   run:
     - {{ mpi }}  # [mpi != 'nompi']
