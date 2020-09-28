@@ -39,6 +39,11 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('fortran') }}
+    - autoconf
+    - automake
+    - m4
+    - libtool
+    - make
 
   host:
     - {{ mpi }}  # [mpi != 'nompi']
