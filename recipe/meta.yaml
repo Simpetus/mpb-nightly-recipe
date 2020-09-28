@@ -60,7 +60,7 @@ test:
 
 about:
   home: http:/github.com/NanoComp/mpb
-  license: GPL-2.0
+  license: GPL-2.0-or-later
   license_file: COPYING
   summary: MIT Photonic-Bands - computation of photonic band structures in periodic media
   doc_url: http://mpb.readthedocs.io
