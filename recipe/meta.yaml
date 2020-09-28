@@ -47,13 +47,13 @@ requirements:
     - liblapack
     - fftw * {{ mpi_prefix }}_*
     - hdf5 1.10.5 {{ mpi_prefix }}_*
-    - libctl
+    - libctl >=4.5
 
   run:
     - {{ mpi }}  # [mpi != 'nompi']
     - fftw * {{ mpi_prefix }}_*
     - hdf5 1.10.5 {{ mpi_prefix }}_*
-    - libctl
+    - libctl >=4.5
     - nomkl
 
 test:
