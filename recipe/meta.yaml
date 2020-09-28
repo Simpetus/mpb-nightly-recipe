@@ -39,19 +39,21 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('fortran') }}
+
   host:
     - {{ mpi }}  # [mpi != 'nompi']
     - libblas
     - libcblas
     - liblapack
-    - fftw
+    - fftw * {{ mpi_prefix }}_*
     - hdf5 1.10.5 {{ mpi_prefix }}_*
-    - libctl >=4.4.0
+    - libctl
+
   run:
     - {{ mpi }}  # [mpi != 'nompi']
-    - hdf5 * {{ mpi_prefix }}_*
-    - fftw
-    - libctl >=4.4.0
+    - fftw * {{ mpi_prefix }}_*
+    - hdf5 1.10.5 {{ mpi_prefix }}_*
+    - libctl
     - nomkl
 
 test:
